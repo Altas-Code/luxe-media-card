@@ -1,0 +1,35 @@
+{
+  "name": "luxe-media-card",
+  "version": "0.1.0",
+  "private": false,
+  "description": "A HACS-installable Home Assistant custom card for elegant now-playing media controls.",
+  "type": "module",
+  "main": "dist/luxe-media-card.js",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "custom-card",
+    "hacs",
+    "media-player"
+  ],
+  "author": "Atlas",
+  "license": "MIT",
+  "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@types/node": "^24.5.2",
+    "eslint": "^9.35.0",
+    "jsdom": "^27.0.0",
+    "lit": "^3.3.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
+  }
+}

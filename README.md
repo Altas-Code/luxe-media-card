@@ -14,6 +14,16 @@ Elegant now-playing Lovelace card for Home Assistant with artwork, metadata, and
 - GUI editor for entity, height, and skip controls
 - Local demo preview for quick visual regression checks
 
+## Preview
+
+### Playing / compact
+
+![Luxe Media Card playing compact](./screenshots/luxe-media-card-playing-compact.png)
+
+### Paused / tall
+
+![Luxe Media Card paused tall](./screenshots/luxe-media-card-paused-tall.png)
+
 ## Install with HACS
 
 1. Open **HACS → Frontend**.

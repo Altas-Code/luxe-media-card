@@ -6,8 +6,8 @@ Strong early-stage HACS custom card project. The core card architecture, config 
 
 ## Must-fix items found and addressed
 
-1. Placeholder GitHub repository/bugs/homepage links in `package.json`
-2. GitHub-specific release story in docs despite Codeberg being the actual forge
+1. Placeholder repository/bugs/homepage links in `package.json`
+2. Forge/release story aligned with the actual hosting target
 
 ## Strengths
 

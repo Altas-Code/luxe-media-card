@@ -29,7 +29,7 @@ Elegant now-playing Lovelace card for Home Assistant with artwork, metadata, and
 1. Open **HACS**.
 2. Go to **⋮ → Custom repositories**.
 3. Add this repository URL:
-   - `https://codeberg.org/AtlasCode/luxe-media-card`
+   - `https://github.com/Altas-Code/luxe-media-card`
 4. Choose category **Dashboard**.
 5. Save.
 6. Search for **Luxe Media Card** in HACS and install it.
@@ -89,15 +89,13 @@ The project is set up test-first and currently includes:
 
 ## Release flow
 
-Current hosting target is **Codeberg**.
+Current hosting target is **GitHub**.
 
 Recommended release flow:
 - run `npm run release:check`
 - create/update the committed `dist/` build locally
 - create a tag like `v0.1.0`
-- publish the release on Codeberg with the built JS bundle and the repo metadata files if needed
-
-If the project is later mirrored to GitHub, CI/release automation can be added there again.
+- publish a GitHub release with the built JS bundle and the repo metadata files if needed
 
 ## Local visual demo
 

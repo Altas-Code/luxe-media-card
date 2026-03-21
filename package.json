@@ -5,13 +5,23 @@
   "description": "A HACS-installable Home Assistant custom card for elegant now-playing media controls.",
   "type": "module",
   "main": "dist/luxe-media-card.js",
+  "files": [
+    "dist",
+    "README.md",
+    "hacs.json",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "vite build",
+    "build:demo": "vite build --config vite.demo.config.ts",
     "dev": "vite build --watch",
+    "dev:demo": "vite --config vite.demo.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "release:check": "npm test && npm run check && npm run build"
   },
   "keywords": [
     "home-assistant",
@@ -22,6 +32,14 @@
   ],
   "author": "Atlas",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-user/luxe-media-card.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-user/luxe-media-card/issues"
+  },
+  "homepage": "https://github.com/your-user/luxe-media-card#readme",
   "devDependencies": {
     "@open-wc/testing": "^4.0.0",
     "@types/node": "^24.5.2",

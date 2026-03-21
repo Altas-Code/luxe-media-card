@@ -26,5 +26,8 @@ jobs:
       - name: Type check
         run: npm run check
 
-      - name: Build
+      - name: Build card
         run: npm run build
+
+      - name: Build demo
+        run: npm run build:demo

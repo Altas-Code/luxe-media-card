@@ -3,5 +3,7 @@
   "render_readme": true,
   "filename": "luxe-media-card.js",
   "content_in_root": false,
-  "homeassistant": ">=2024.8.0"
+  "homeassistant": ">=2024.8.0",
+  "country": ["DE", "US", "GB"],
+  "iot_class": "local_push"
 }

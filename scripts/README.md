@@ -1,9 +1,9 @@
 # Helper scripts
 
-## Install Playwright runtime deps on Debian
+Projektinterne Hilfsskripte würden hier liegen.
+
+Temporäre Ausführ-Skripte, die Atlas für Christian bereitstellt, liegen ab jetzt zentral in:
 
 ```bash
-bash scripts/install-playwright-deps.sh
+/home/atlas/.openclaw/workspace/scripts/
 ```
-
-This installs the shared libraries needed by Playwright's Chromium headless browser on Debian 13 / similar systems.

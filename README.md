@@ -57,8 +57,16 @@ npm run build
 
 The project is set up test-first and currently includes:
 
-- config normalization tests
+- config normalization and validation tests
 - control support logic tests
-- rendering tests for active and fallback states
-- interaction test for media service calls
+- rendering tests for active, paused, fallback, and missing-entity states
+- interaction tests for transport service calls
 - GUI editor tests for entity filtering and config updates
+
+## Current polish
+
+- subtle gradient treatment for active playback
+- state eyebrow above title/artist
+- better long-text handling
+- more robust control layout on smaller widths
+- improved placeholder artwork styling

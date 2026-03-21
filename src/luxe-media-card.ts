@@ -64,26 +64,29 @@ export class LuxeMediaCard extends LitElement {
 
     return html`
       <ha-card>
-        <div class="card ${HEIGHT_CLASS_MAP[this._config.height]}">
+        <div class="card ${HEIGHT_CLASS_MAP[this._config.height]}" data-state=${state}>
           <div class="artwork-shell" data-testid="artwork-shell">
             ${artwork
               ? html`<img data-testid="artwork" class="artwork" src="${artwork}" alt="Album artwork" />`
-              : html`<div data-testid="placeholder" class="placeholder" aria-label="No artwork available">♪</div>`}
+              : html`<div data-testid="placeholder" class="placeholder" aria-label="No artwork available">
+                  <span class="placeholder-icon">♪</span>
+                </div>`}
           </div>
 
           <div class="content">
             <div class="meta">
-              <div data-testid="title" class="title">${title}</div>
-              <div data-testid="artist" class="artist">${artist}</div>
+              <div class="eyebrow">${this.#formatState(state)}</div>
+              <div data-testid="title" class="title" title=${title}>${title}</div>
+              <div data-testid="artist" class="artist" title=${artist}>${artist}</div>
             </div>
 
-            <div class="controls">
+            <div class="controls" data-testid="controls">
               ${canShowSkip && hasPrevious
-                ? html`<button data-testid="previous-button" class="icon-button" @click=${() => this.#callMediaService('media_previous_track')} aria-label="Previous track">⏮</button>`
+                ? html`<button data-testid="previous-button" class="icon-button" @click=${() => this.#callMediaService('media_previous_track')} aria-label="Previous track" title="Previous track">⏮</button>`
                 : nothing}
-              <button data-testid="play-pause-button" class="icon-button primary" @click=${() => this.#callMediaService('media_play_pause')} aria-label=${playPauseLabel}>${state === 'playing' ? '⏸' : '▶'}</button>
+              <button data-testid="play-pause-button" class="icon-button primary" @click=${() => this.#callMediaService('media_play_pause')} aria-label=${playPauseLabel} title=${playPauseLabel}>${state === 'playing' ? '⏸' : '▶'}</button>
               ${canShowSkip && hasNext
-                ? html`<button data-testid="next-button" class="icon-button" @click=${() => this.#callMediaService('media_next_track')} aria-label="Next track">⏭</button>`
+                ? html`<button data-testid="next-button" class="icon-button" @click=${() => this.#callMediaService('media_next_track')} aria-label="Next track" title="Next track">⏭</button>`
                 : nothing}
             </div>
           </div>
@@ -110,6 +113,10 @@ export class LuxeMediaCard extends LitElement {
     return (entity.attributes.media_artist as string | undefined | null) || entity.state;
   }
 
+  #formatState(state: string): string {
+    return state.replace(/_/g, ' ');
+  }
+
   static styles = css`
     :host {
       display: block;
@@ -118,24 +125,46 @@ export class LuxeMediaCard extends LitElement {
     ha-card {
       overflow: hidden;
       border-radius: 20px;
+      background: var(--ha-card-background, var(--card-background-color, #1f2430));
+      box-shadow: var(--ha-card-box-shadow, none);
     }
 
     .card {
+      --card-padding: 18px;
       display: grid;
-      grid-template-columns: minmax(96px, 34%) 1fr;
+      grid-template-columns: clamp(108px, 32%, 168px) minmax(0, 1fr);
       gap: 0;
-      background: linear-gradient(135deg, rgba(20, 24, 32, 0.92), rgba(36, 44, 58, 0.95));
-      color: white;
+      min-width: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 42%),
+        linear-gradient(135deg, rgba(20, 24, 32, 0.96), rgba(36, 44, 58, 0.96));
+      color: var(--primary-text-color, white);
+    }
+
+    .card[data-state='playing'] {
+      background:
+        radial-gradient(circle at top left, rgba(120, 180, 255, 0.18), transparent 40%),
+        linear-gradient(135deg, rgba(20, 24, 32, 0.96), rgba(36, 44, 58, 0.98));
     }
 
     .height-flat { min-height: 120px; }
     .height-compact { min-height: 156px; }
-    .height-comfortable { min-height: 192px; }
-    .height-tall { min-height: 240px; }
+    .height-comfortable { min-height: 196px; }
+    .height-tall { min-height: 244px; }
 
     .artwork-shell {
+      position: relative;
       min-height: 100%;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .artwork-shell::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 70%, rgba(0, 0, 0, 0.18));
+      pointer-events: none;
     }
 
     .artwork,
@@ -146,30 +175,44 @@ export class LuxeMediaCard extends LitElement {
       align-items: center;
       justify-content: center;
       object-fit: cover;
-      aspect-ratio: 1 / 1;
       min-height: inherit;
     }
 
     .placeholder {
-      font-size: 2.5rem;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.18));
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.16), transparent 20%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.14));
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .placeholder-icon {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
     }
 
     .content {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 18px 18px 14px 18px;
-      gap: 12px;
+      min-width: 0;
+      padding: var(--card-padding) var(--card-padding) 14px var(--card-padding);
+      gap: 14px;
     }
 
     .meta {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      justify-content: end;
-      min-height: 0;
+      min-width: 0;
       margin-top: auto;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--secondary-text-color, rgba(255, 255, 255, 0.7));
+      opacity: 0.92;
     }
 
     .title,
@@ -179,17 +222,20 @@ export class LuxeMediaCard extends LitElement {
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-box-orient: vertical;
+      word-break: break-word;
     }
 
     .title {
-      font-size: 1.05rem;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
       font-weight: 700;
+      line-height: 1.2;
       -webkit-line-clamp: 2;
     }
 
     .artist {
-      font-size: 0.95rem;
-      opacity: 0.78;
+      font-size: clamp(0.9rem, 1.8vw, 1rem);
+      color: var(--secondary-text-color, rgba(255, 255, 255, 0.76));
+      line-height: 1.25;
       -webkit-line-clamp: 2;
     }
 
@@ -197,6 +243,7 @@ export class LuxeMediaCard extends LitElement {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: auto;
     }
@@ -207,9 +254,25 @@ export class LuxeMediaCard extends LitElement {
       width: 42px;
       height: 42px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.12);
       color: inherit;
       font-size: 1.1rem;
+      backdrop-filter: blur(8px);
+      transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+    }
+
+    .icon-button:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .icon-button:active {
+      transform: translateY(0);
+    }
+
+    .icon-button:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.72);
+      outline-offset: 2px;
     }
 
     .icon-button.primary {
@@ -221,6 +284,28 @@ export class LuxeMediaCard extends LitElement {
 
     .missing {
       padding: 16px;
+      color: var(--secondary-text-color);
+    }
+
+    @media (max-width: 420px) {
+      .card {
+        grid-template-columns: 112px minmax(0, 1fr);
+      }
+
+      .content {
+        --card-padding: 14px;
+        gap: 10px;
+      }
+
+      .icon-button {
+        width: 38px;
+        height: 38px;
+      }
+
+      .icon-button.primary {
+        width: 44px;
+        height: 44px;
+      }
     }
   `;
 }

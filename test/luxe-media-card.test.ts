@@ -1,4 +1,5 @@
 import { fixture, html, expect } from '@open-wc/testing';
+import { vi } from 'vitest';
 import '../src/luxe-media-card';
 import type { LuxeMediaCard } from '../src/luxe-media-card';
 import { normalizeConfig, shouldShowSkipControls } from '../src/config';
@@ -84,8 +85,10 @@ describe('luxe-media-card', () => {
 
     (el.shadowRoot!.querySelector('[data-testid="play-pause-button"]') as HTMLButtonElement).click();
 
-    expect(hass.callService).to.have.been.calledWith('media_player', 'media_play_pause', {
-      entity_id: 'media_player.living_room'
-    });
+    expect(hass.callService.mock.calls).to.deep.equal([[
+      'media_player',
+      'media_play_pause',
+      { entity_id: 'media_player.living_room' }
+    ]]);
   });
 });

@@ -34,12 +34,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-user/luxe-media-card.git"
+    "url": "git+https://codeberg.org/AtlasCode/luxe-media-card.git"
   },
   "bugs": {
-    "url": "https://github.com/your-user/luxe-media-card/issues"
+    "url": "https://codeberg.org/AtlasCode/luxe-media-card/issues"
   },
-  "homepage": "https://github.com/your-user/luxe-media-card#readme",
+  "homepage": "https://codeberg.org/AtlasCode/luxe-media-card",
   "devDependencies": {
     "@open-wc/testing": "^4.0.0",
     "@types/node": "^24.5.2",

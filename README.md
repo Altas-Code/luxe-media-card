@@ -94,8 +94,8 @@ Current hosting target is **GitHub**.
 Recommended release flow:
 - run `npm run release:check`
 - create/update the committed `dist/` build locally
-- create a tag like `v0.1.0`
-- publish a GitHub release with the built JS bundle and the repo metadata files if needed
+- create and push a tag like `v0.1.1`
+- GitHub Actions builds the card and attaches the JS bundle plus metadata files to the release automatically
 
 ## Local visual demo
 

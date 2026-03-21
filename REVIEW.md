@@ -24,7 +24,7 @@ Strong early-stage HACS custom card project. The core card architecture, config 
 
 1. Replace Unicode transport glyphs with HA-native icons if desired.
 2. Add one more README example for a taller layout.
-3. Decide whether release artifacts should be attached manually on Codeberg or via a future Codeberg-native CI pipeline.
+3. Confirm the automated GitHub release flow works end-to-end with HACS.
 4. Add a changelog entry for screenshot/docs polish if public release notes should be exhaustive.
 
 ## Current judgment

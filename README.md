@@ -93,7 +93,7 @@ Current hosting target is **Codeberg**.
 
 Recommended release flow:
 - run `npm run release:check`
-- create/update the `dist/` build locally
+- create/update the committed `dist/` build locally
 - create a tag like `v0.1.0`
 - publish the release on Codeberg with the built JS bundle and the repo metadata files if needed
 

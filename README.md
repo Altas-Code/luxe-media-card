@@ -26,11 +26,15 @@ Elegant now-playing Lovelace card for Home Assistant with artwork, metadata, and
 
 ## Install with HACS
 
-1. Open **HACS → Frontend**.
-2. Add this repository as a **custom repository**.
-3. Install **Luxe Media Card**.
-4. Reload Home Assistant.
-5. Add the card from the Lovelace card picker.
+1. Open **HACS**.
+2. Go to **⋮ → Custom repositories**.
+3. Add this repository URL:
+   - `https://codeberg.org/AtlasCode/luxe-media-card`
+4. Choose category **Dashboard**.
+5. Save.
+6. Search for **Luxe Media Card** in HACS and install it.
+7. Reload Home Assistant.
+8. Add the card from the Lovelace card picker, or use `type: custom:luxe-media-card` manually.
 
 ## Manual install
 

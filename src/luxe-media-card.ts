@@ -76,9 +76,10 @@ export class LuxeMediaCard extends LitElement {
 
           <div class="content">
             <div class="meta">
-              <div class="eyebrow">${this.#formatState(state)}</div>
               <div data-testid="title" class="title" title=${title}>${title}</div>
-              <div data-testid="artist" class="artist" title=${artist}>${artist}</div>
+              ${artist && artist !== title
+                ? html`<div data-testid="artist" class="artist" title=${artist}>${artist}</div>`
+                : nothing}
             </div>
 
             <div class="controls" data-testid="controls">
@@ -111,11 +112,7 @@ export class LuxeMediaCard extends LitElement {
   }
 
   #getArtist(entity: HassEntity): string {
-    return (entity.attributes.media_artist as string | undefined | null) || entity.state;
-  }
-
-  #formatState(state: string): string {
-    return state.replace(/_/g, ' ');
+    return (entity.attributes.media_artist as string | undefined | null) || '';
   }
 
   static styles = css`
@@ -211,17 +208,10 @@ export class LuxeMediaCard extends LitElement {
     .meta {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       min-width: 0;
       margin-top: auto;
-    }
-
-    .eyebrow {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--secondary-text-color);
-      opacity: 0.92;
+      justify-content: center;
     }
 
     .title,
@@ -235,16 +225,16 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .title {
-      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-size: clamp(1.05rem, 2.3vw, 1.28rem);
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.18;
       -webkit-line-clamp: 2;
     }
 
     .artist {
-      font-size: clamp(0.9rem, 1.8vw, 1rem);
+      font-size: clamp(0.88rem, 1.7vw, 0.98rem);
       color: var(--secondary-text-color);
-      line-height: 1.25;
+      line-height: 1.22;
       -webkit-line-clamp: 2;
     }
 

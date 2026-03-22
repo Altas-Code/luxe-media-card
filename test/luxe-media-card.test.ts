@@ -63,11 +63,10 @@ describe('luxe-media-card', () => {
     expect(root.querySelector('[data-testid="title"]')?.textContent).to.contain('Nightcall');
     expect(root.querySelector('[data-testid="artist"]')?.textContent).to.contain('Kavinsky');
     expect(root.querySelector('[data-testid="play-pause-button"]')?.getAttribute('aria-label')).to.equal('Pause');
-    expect(root.querySelector('.eyebrow')?.textContent).to.contain('playing');
     expect(root.querySelector('[data-testid="play-pause-button"] ha-icon')?.getAttribute('icon')).to.equal('mdi:pause');
   });
 
-  it('renders fallback name and state when media is not active', async () => {
+  it('renders fallback name without status text when media is not active', async () => {
     const el = await fixture<LuxeMediaCard>(html`<luxe-media-card></luxe-media-card>`);
     el.setConfig({ entity: 'media_player.living_room' });
     el.hass = createHass('idle', {
@@ -79,7 +78,7 @@ describe('luxe-media-card', () => {
 
     const root = el.shadowRoot!;
     expect(root.querySelector('[data-testid="title"]')?.textContent).to.contain('Living Room Speaker');
-    expect(root.querySelector('[data-testid="artist"]')?.textContent).to.contain('idle');
+    expect(root.querySelector('[data-testid="artist"]')).to.not.exist;
     expect(root.querySelector('[data-testid="placeholder"]')).to.exist;
   });
 
@@ -165,16 +164,16 @@ describe('luxe-media-card', () => {
     expect(el.shadowRoot!.textContent).to.contain('Entity not found');
   });
 
-  it('formats underscored states for display', async () => {
+  it('does not render a second line when no artist is available', async () => {
     const el = await fixture<LuxeMediaCard>(html`<luxe-media-card></luxe-media-card>`);
     el.setConfig({ entity: 'media_player.living_room' });
     el.hass = createHass('standby_mode', {
-      media_title: null,
+      media_title: 'Living Room Speaker',
       media_artist: null,
       entity_picture: null
     }) as any;
     await el.updateComplete;
 
-    expect(el.shadowRoot!.querySelector('.eyebrow')?.textContent).to.contain('standby mode');
+    expect(el.shadowRoot!.querySelector('[data-testid="artist"]')).to.not.exist;
   });
 });

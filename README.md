@@ -6,9 +6,9 @@ Elegant now-playing Lovelace card for Home Assistant with artwork, metadata, and
 
 - HACS-installable custom card
 - Single `media_player` entity per card
-- Artwork on the left, metadata and controls on the right
-- Title and artist text left-aligned
-- Play/pause button always shown
+- Artwork on the left in a square, full-height panel
+- Title and optional artist text left-aligned on the right
+- Material Design transport icons with play/pause always shown
 - Previous/next buttons shown only when enabled **and** supported by the device
 - Height presets: `flat`, `compact`, `comfortable`, `tall`
 - GUI editor for entity, height, and skip controls
@@ -62,7 +62,8 @@ show_skip_controls: true
 ## Behaviour notes
 
 - If playback artwork is missing, the card shows a styled placeholder.
-- If title/artist metadata is missing, the card falls back to the entity name and state.
+- If title/artist metadata is missing, the card falls back to the entity name.
+- If a second media field like artist is unavailable, the card shows only the title line.
 - Skip buttons hide automatically when the selected player does not support them.
 - The main transport button toggles play/pause depending on the player state.
 

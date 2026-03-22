@@ -125,30 +125,27 @@ export class LuxeMediaCard extends LitElement {
 
     ha-card {
       overflow: hidden;
-      border-radius: 20px;
+      border-radius: var(--ha-card-border-radius, 12px);
       background: var(--ha-card-background, var(--card-background-color));
-      box-shadow: var(--ha-card-box-shadow, none);
+      box-shadow: var(--ha-card-box-shadow, var(--shadow-elevation-2dp_-_box-shadow));
+      border: var(--ha-card-border-width, 1px) solid var(--divider-color, rgba(127, 127, 127, 0.16));
     }
 
     .card {
-      --card-padding: 18px;
-      --luxe-surface: color-mix(in srgb, var(--card-background-color, #1c1c1c) 92%, var(--primary-background-color, #111) 8%);
-      --luxe-surface-playing: color-mix(in srgb, var(--card-background-color, #1c1c1c) 82%, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 18%);
-      --luxe-artwork-fallback: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 86%, var(--primary-color, #03a9f4) 14%);
+      --card-padding: 16px;
+      --luxe-surface: var(--ha-card-background, var(--card-background-color));
+      --luxe-surface-playing: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) 90%, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 10%);
+      --luxe-artwork-fallback: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 92%, var(--primary-color, #03a9f4) 8%);
       display: grid;
       grid-template-columns: clamp(108px, 32%, 168px) minmax(0, 1fr);
       gap: 0;
       min-width: 0;
-      background:
-        radial-gradient(circle at top left, color-mix(in srgb, var(--primary-text-color, #fff) 10%, transparent), transparent 42%),
-        linear-gradient(135deg, var(--luxe-surface), color-mix(in srgb, var(--luxe-surface) 88%, var(--secondary-background-color, #000) 12%));
+      background: var(--luxe-surface);
       color: var(--primary-text-color);
     }
 
     .card[data-state='playing'] {
-      background:
-        radial-gradient(circle at top left, color-mix(in srgb, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 18%, transparent), transparent 40%),
-        linear-gradient(135deg, var(--luxe-surface-playing), color-mix(in srgb, var(--luxe-surface-playing) 88%, var(--secondary-background-color, #000) 12%));
+      background: var(--luxe-surface-playing);
     }
 
     .height-flat { min-height: 120px; }
@@ -159,16 +156,9 @@ export class LuxeMediaCard extends LitElement {
     .artwork-shell {
       position: relative;
       min-height: 100%;
-      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 92%, var(--primary-text-color, #fff) 8%);
+      background: var(--secondary-background-color, var(--card-background-color));
       overflow: hidden;
-    }
-
-    .artwork-shell::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent 70%, rgba(0, 0, 0, 0.18));
-      pointer-events: none;
+      border-inline-end: 1px solid var(--divider-color, rgba(127, 127, 127, 0.16));
     }
 
     .artwork,
@@ -183,10 +173,8 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .placeholder {
-      background:
-        radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--primary-text-color, #fff) 16%, transparent), transparent 20%),
-        linear-gradient(135deg, color-mix(in srgb, var(--luxe-artwork-fallback) 86%, var(--primary-text-color, #fff) 14%), var(--luxe-artwork-fallback));
-      color: var(--primary-text-color);
+      background: var(--luxe-artwork-fallback);
+      color: var(--secondary-text-color);
     }
 
     .placeholder-icon {
@@ -199,8 +187,8 @@ export class LuxeMediaCard extends LitElement {
       flex-direction: column;
       justify-content: space-between;
       min-width: 0;
-      padding: var(--card-padding) var(--card-padding) 14px var(--card-padding);
-      gap: 14px;
+      padding: var(--card-padding);
+      gap: 12px;
     }
 
     .meta {
@@ -253,20 +241,20 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .icon-button {
-      border: 0;
-      border-radius: 999px;
-      width: 42px;
-      height: 42px;
+      border: 1px solid var(--divider-color, rgba(127, 127, 127, 0.22));
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
       cursor: pointer;
-      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 78%, var(--primary-text-color, #fff) 22%);
+      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color)) 96%, var(--primary-text-color) 4%);
       color: var(--primary-text-color);
       font-size: 1.1rem;
-      backdrop-filter: blur(8px);
-      transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
     }
 
     .icon-button:hover {
-      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 68%, var(--primary-text-color, #fff) 32%);
+      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color)) 92%, var(--primary-text-color) 8%);
+      border-color: color-mix(in srgb, var(--divider-color, rgba(127, 127, 127, 0.22)) 70%, var(--primary-text-color) 30%);
       transform: translateY(-1px);
     }
 
@@ -275,25 +263,26 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .icon-button:focus-visible {
-      outline: 2px solid rgba(255, 255, 255, 0.72);
+      outline: 2px solid var(--primary-color);
       outline-offset: 2px;
     }
 
     .icon-button.primary {
-      background: color-mix(in srgb, var(--primary-color, #03a9f4) 22%, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 78%);
-      width: 48px;
-      height: 48px;
+      background: color-mix(in srgb, var(--primary-color, #03a9f4) 14%, var(--secondary-background-color, var(--card-background-color)) 86%);
+      border-color: color-mix(in srgb, var(--primary-color, #03a9f4) 40%, var(--divider-color, rgba(127, 127, 127, 0.22)) 60%);
+      width: 44px;
+      height: 44px;
       font-size: 1.2rem;
     }
 
     .icon-button ha-icon {
       display: inline-flex;
-      --mdc-icon-size: 22px;
+      --mdc-icon-size: 20px;
       color: currentColor;
     }
 
     .icon-button.primary ha-icon {
-      --mdc-icon-size: 24px;
+      --mdc-icon-size: 22px;
     }
 
     .missing {
@@ -312,13 +301,13 @@ export class LuxeMediaCard extends LitElement {
       }
 
       .icon-button {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
       }
 
       .icon-button.primary {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
       }
     }
   `;

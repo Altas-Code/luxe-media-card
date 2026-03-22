@@ -136,8 +136,9 @@ export class LuxeMediaCard extends LitElement {
       --luxe-surface: var(--ha-card-background, var(--card-background-color));
       --luxe-surface-playing: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) 90%, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 10%);
       --luxe-artwork-fallback: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 92%, var(--primary-color, #03a9f4) 8%);
+      --artwork-size: 156px;
       display: grid;
-      grid-template-columns: clamp(108px, 32%, 168px) minmax(0, 1fr);
+      grid-template-columns: var(--artwork-size) minmax(0, 1fr);
       gap: 0;
       min-width: 0;
       background: var(--luxe-surface);
@@ -148,14 +149,30 @@ export class LuxeMediaCard extends LitElement {
       background: var(--luxe-surface-playing);
     }
 
-    .height-flat { min-height: 120px; }
-    .height-compact { min-height: 156px; }
-    .height-comfortable { min-height: 196px; }
-    .height-tall { min-height: 244px; }
+    .height-flat {
+      --artwork-size: 120px;
+      min-height: 120px;
+    }
+
+    .height-compact {
+      --artwork-size: 156px;
+      min-height: 156px;
+    }
+
+    .height-comfortable {
+      --artwork-size: 196px;
+      min-height: 196px;
+    }
+
+    .height-tall {
+      --artwork-size: 244px;
+      min-height: 244px;
+    }
 
     .artwork-shell {
       position: relative;
-      min-height: 100%;
+      width: var(--artwork-size);
+      height: var(--artwork-size);
       background: var(--secondary-background-color, var(--card-background-color));
       overflow: hidden;
       border-inline-end: 1px solid var(--divider-color, rgba(127, 127, 127, 0.16));
@@ -169,7 +186,7 @@ export class LuxeMediaCard extends LitElement {
       align-items: center;
       justify-content: center;
       object-fit: cover;
-      min-height: inherit;
+      aspect-ratio: 1 / 1;
     }
 
     .placeholder {
@@ -292,7 +309,7 @@ export class LuxeMediaCard extends LitElement {
 
     @media (max-width: 420px) {
       .card {
-        grid-template-columns: 112px minmax(0, 1fr);
+        --artwork-size: 112px;
       }
 
       .content {

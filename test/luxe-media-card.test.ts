@@ -64,6 +64,7 @@ describe('luxe-media-card', () => {
     expect(root.querySelector('[data-testid="artist"]')?.textContent).to.contain('Kavinsky');
     expect(root.querySelector('[data-testid="play-pause-button"]')?.getAttribute('aria-label')).to.equal('Pause');
     expect(root.querySelector('.eyebrow')?.textContent).to.contain('playing');
+    expect(root.querySelector('[data-testid="play-pause-button"] ha-icon')?.getAttribute('icon')).to.equal('mdi:pause');
   });
 
   it('renders fallback name and state when media is not active', async () => {
@@ -89,6 +90,7 @@ describe('luxe-media-card', () => {
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector('[data-testid="play-pause-button"]')?.getAttribute('aria-label')).to.equal('Play');
+    expect(el.shadowRoot!.querySelector('[data-testid="play-pause-button"] ha-icon')?.getAttribute('icon')).to.equal('mdi:play');
   });
 
   it('hides skip controls when disabled in config', async () => {
@@ -118,6 +120,7 @@ describe('luxe-media-card', () => {
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector('[data-testid="next-button"]')).to.exist;
+    expect(el.shadowRoot!.querySelector('[data-testid="next-button"] ha-icon')?.getAttribute('icon')).to.equal('mdi:skip-next');
     expect(el.shadowRoot!.querySelector('[data-testid="previous-button"]')).to.not.exist;
   });
 

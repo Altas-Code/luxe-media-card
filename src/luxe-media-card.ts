@@ -61,6 +61,7 @@ export class LuxeMediaCard extends LitElement {
     const hasPrevious = (supportedFeatures & MEDIA_PLAYER_SUPPORT_PREVIOUS_TRACK) !== 0;
     const hasNext = (supportedFeatures & MEDIA_PLAYER_SUPPORT_NEXT_TRACK) !== 0;
     const playPauseLabel = state === 'playing' ? 'Pause' : 'Play';
+    const playPauseIcon = state === 'playing' ? 'mdi:pause' : 'mdi:play';
 
     return html`
       <ha-card>
@@ -82,11 +83,11 @@ export class LuxeMediaCard extends LitElement {
 
             <div class="controls" data-testid="controls">
               ${canShowSkip && hasPrevious
-                ? html`<button data-testid="previous-button" class="icon-button" @click=${() => this.#callMediaService('media_previous_track')} aria-label="Previous track" title="Previous track">⏮</button>`
+                ? html`<button data-testid="previous-button" class="icon-button" @click=${() => this.#callMediaService('media_previous_track')} aria-label="Previous track" title="Previous track"><ha-icon icon="mdi:skip-previous"></ha-icon></button>`
                 : nothing}
-              <button data-testid="play-pause-button" class="icon-button primary" @click=${() => this.#callMediaService('media_play_pause')} aria-label=${playPauseLabel} title=${playPauseLabel}>${state === 'playing' ? '⏸' : '▶'}</button>
+              <button data-testid="play-pause-button" class="icon-button primary" @click=${() => this.#callMediaService('media_play_pause')} aria-label=${playPauseLabel} title=${playPauseLabel}><ha-icon icon=${playPauseIcon}></ha-icon></button>
               ${canShowSkip && hasNext
-                ? html`<button data-testid="next-button" class="icon-button" @click=${() => this.#callMediaService('media_next_track')} aria-label="Next track" title="Next track">⏭</button>`
+                ? html`<button data-testid="next-button" class="icon-button" @click=${() => this.#callMediaService('media_next_track')} aria-label="Next track" title="Next track"><ha-icon icon="mdi:skip-next"></ha-icon></button>`
                 : nothing}
             </div>
           </div>
@@ -125,26 +126,29 @@ export class LuxeMediaCard extends LitElement {
     ha-card {
       overflow: hidden;
       border-radius: 20px;
-      background: var(--ha-card-background, var(--card-background-color, #1f2430));
+      background: var(--ha-card-background, var(--card-background-color));
       box-shadow: var(--ha-card-box-shadow, none);
     }
 
     .card {
       --card-padding: 18px;
+      --luxe-surface: color-mix(in srgb, var(--card-background-color, #1c1c1c) 92%, var(--primary-background-color, #111) 8%);
+      --luxe-surface-playing: color-mix(in srgb, var(--card-background-color, #1c1c1c) 82%, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 18%);
+      --luxe-artwork-fallback: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 86%, var(--primary-color, #03a9f4) 14%);
       display: grid;
       grid-template-columns: clamp(108px, 32%, 168px) minmax(0, 1fr);
       gap: 0;
       min-width: 0;
       background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 42%),
-        linear-gradient(135deg, rgba(20, 24, 32, 0.96), rgba(36, 44, 58, 0.96));
-      color: var(--primary-text-color, white);
+        radial-gradient(circle at top left, color-mix(in srgb, var(--primary-text-color, #fff) 10%, transparent), transparent 42%),
+        linear-gradient(135deg, var(--luxe-surface), color-mix(in srgb, var(--luxe-surface) 88%, var(--secondary-background-color, #000) 12%));
+      color: var(--primary-text-color);
     }
 
     .card[data-state='playing'] {
       background:
-        radial-gradient(circle at top left, rgba(120, 180, 255, 0.18), transparent 40%),
-        linear-gradient(135deg, rgba(20, 24, 32, 0.96), rgba(36, 44, 58, 0.98));
+        radial-gradient(circle at top left, color-mix(in srgb, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 18%, transparent), transparent 40%),
+        linear-gradient(135deg, var(--luxe-surface-playing), color-mix(in srgb, var(--luxe-surface-playing) 88%, var(--secondary-background-color, #000) 12%));
     }
 
     .height-flat { min-height: 120px; }
@@ -155,7 +159,7 @@ export class LuxeMediaCard extends LitElement {
     .artwork-shell {
       position: relative;
       min-height: 100%;
-      background: rgba(255, 255, 255, 0.06);
+      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 92%, var(--primary-text-color, #fff) 8%);
       overflow: hidden;
     }
 
@@ -180,9 +184,9 @@ export class LuxeMediaCard extends LitElement {
 
     .placeholder {
       background:
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.16), transparent 20%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.14));
-      color: rgba(255, 255, 255, 0.82);
+        radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--primary-text-color, #fff) 16%, transparent), transparent 20%),
+        linear-gradient(135deg, color-mix(in srgb, var(--luxe-artwork-fallback) 86%, var(--primary-text-color, #fff) 14%), var(--luxe-artwork-fallback));
+      color: var(--primary-text-color);
     }
 
     .placeholder-icon {
@@ -211,7 +215,7 @@ export class LuxeMediaCard extends LitElement {
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--secondary-text-color, rgba(255, 255, 255, 0.7));
+      color: var(--secondary-text-color);
       opacity: 0.92;
     }
 
@@ -234,7 +238,7 @@ export class LuxeMediaCard extends LitElement {
 
     .artist {
       font-size: clamp(0.9rem, 1.8vw, 1rem);
-      color: var(--secondary-text-color, rgba(255, 255, 255, 0.76));
+      color: var(--secondary-text-color);
       line-height: 1.25;
       -webkit-line-clamp: 2;
     }
@@ -254,15 +258,15 @@ export class LuxeMediaCard extends LitElement {
       width: 42px;
       height: 42px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.12);
-      color: inherit;
+      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 78%, var(--primary-text-color, #fff) 22%);
+      color: var(--primary-text-color);
       font-size: 1.1rem;
       backdrop-filter: blur(8px);
       transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
     }
 
     .icon-button:hover {
-      background: rgba(255, 255, 255, 0.18);
+      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 68%, var(--primary-text-color, #fff) 32%);
       transform: translateY(-1px);
     }
 
@@ -276,10 +280,20 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .icon-button.primary {
-      background: rgba(255, 255, 255, 0.24);
+      background: color-mix(in srgb, var(--primary-color, #03a9f4) 22%, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 78%);
       width: 48px;
       height: 48px;
       font-size: 1.2rem;
+    }
+
+    .icon-button ha-icon {
+      display: inline-flex;
+      --mdc-icon-size: 22px;
+      color: currentColor;
+    }
+
+    .icon-button.primary ha-icon {
+      --mdc-icon-size: 24px;
     }
 
     .missing {

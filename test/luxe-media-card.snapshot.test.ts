@@ -22,7 +22,7 @@ const hass = {
 describe('luxe-media-card snapshot structure', () => {
   it('renders the expected shell for visual sanity checks', async () => {
     const el = await fixture<LuxeMediaCard>(html`<luxe-media-card></luxe-media-card>`);
-    el.setConfig({ entity: 'media_player.demo', height: 'comfortable', show_skip_controls: true });
+    el.setConfig({ entity: 'media_player.demo', height: 'comfortable', show_skip_controls: true, text_overflow: 'truncate' });
     el.hass = hass as any;
     await el.updateComplete;
 
@@ -38,6 +38,6 @@ describe('luxe-media-card snapshot structure', () => {
     expect(normalized).to.contain('data-testid="previous-button"');
     expect(normalized).to.contain('data-testid="play-pause-button"');
     expect(normalized).to.contain('data-testid="next-button"');
-    expect(normalized).to.contain('class="card height-comfortable"');
+    expect(normalized).to.contain('class="card height-comfortable text-truncate"');
   });
 });

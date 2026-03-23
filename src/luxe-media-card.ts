@@ -38,7 +38,8 @@ export class LuxeMediaCard extends LitElement {
     return {
       entity: 'media_player.example',
       height: 'compact',
-      show_skip_controls: true
+      show_skip_controls: true,
+      text_overflow: 'truncate'
     };
   }
 
@@ -62,10 +63,11 @@ export class LuxeMediaCard extends LitElement {
     const hasNext = (supportedFeatures & MEDIA_PLAYER_SUPPORT_NEXT_TRACK) !== 0;
     const playPauseLabel = state === 'playing' ? 'Pause' : 'Play';
     const playPauseIcon = state === 'playing' ? 'mdi:pause' : 'mdi:play';
+    const overflowMode = this._config.text_overflow;
 
     return html`
       <ha-card>
-        <div class="card ${HEIGHT_CLASS_MAP[this._config.height]}" data-state=${state}>
+        <div class="card ${HEIGHT_CLASS_MAP[this._config.height]} ${overflowMode === 'scroll' ? 'text-scroll' : 'text-truncate'}" data-state=${state}>
           <div class="artwork-shell" data-testid="artwork-shell">
             ${artwork
               ? html`<img data-testid="artwork" class="artwork" src="${artwork}" alt="Album artwork" />`
@@ -76,9 +78,17 @@ export class LuxeMediaCard extends LitElement {
 
           <div class="content">
             <div class="meta">
-              <div data-testid="title" class="title" title=${title}>${title}</div>
+              <div class="text-row title-row" data-testid="title-row">
+                <div data-testid="title" class="title ${overflowMode === 'scroll' ? 'marquee' : 'truncate'}" title=${title}>
+                  <span>${title}</span>
+                </div>
+              </div>
               ${artist && artist !== title
-                ? html`<div data-testid="artist" class="artist" title=${artist}>${artist}</div>`
+                ? html`<div class="text-row artist-row" data-testid="artist-row">
+                    <div data-testid="artist" class="artist ${overflowMode === 'scroll' ? 'marquee' : 'truncate'}" title=${artist}>
+                      <span>${artist}</span>
+                    </div>
+                  </div>`
                 : nothing}
             </div>
 
@@ -214,28 +224,53 @@ export class LuxeMediaCard extends LitElement {
       justify-content: center;
     }
 
+    .text-row {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
     .title,
     .artist {
+      display: inline-block;
+      min-width: 0;
+      max-width: 100%;
       text-align: left;
+      vertical-align: top;
+    }
+
+    .truncate {
       overflow: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      word-break: break-word;
+      white-space: nowrap;
+    }
+
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee > span {
+      display: inline-block;
+      padding-inline-end: 2rem;
+      animation: luxe-marquee 12s linear infinite;
+    }
+
+    .marquee:hover > span {
+      animation-play-state: paused;
     }
 
     .title {
       font-size: clamp(1.05rem, 2.3vw, 1.28rem);
       font-weight: 700;
       line-height: 1.18;
-      -webkit-line-clamp: 2;
     }
 
     .artist {
       font-size: clamp(0.88rem, 1.7vw, 0.98rem);
       color: var(--secondary-text-color);
       line-height: 1.22;
-      -webkit-line-clamp: 2;
     }
 
     .controls {
@@ -295,6 +330,21 @@ export class LuxeMediaCard extends LitElement {
     .missing {
       padding: 16px;
       color: var(--secondary-text-color);
+    }
+
+    @keyframes luxe-marquee {
+      0%, 10% {
+        transform: translateX(0);
+      }
+      90%, 100% {
+        transform: translateX(calc(-100% + var(--artwork-size) * 0));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee > span {
+        animation: none;
+      }
     }
 
     @media (max-width: 420px) {

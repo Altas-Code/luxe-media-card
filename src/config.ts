@@ -4,20 +4,24 @@ import {
 } from './media-player-support';
 
 export type LuxeMediaCardHeight = 'flat' | 'compact' | 'comfortable' | 'tall';
+export type LuxeMediaCardTextOverflow = 'truncate' | 'scroll';
 
 export interface LuxeMediaCardConfig {
   entity: string;
   height?: LuxeMediaCardHeight;
   show_skip_controls?: boolean;
+  text_overflow?: LuxeMediaCardTextOverflow;
 }
 
 export interface NormalizedLuxeMediaCardConfig {
   entity: string;
   height: LuxeMediaCardHeight;
   show_skip_controls: boolean;
+  text_overflow: LuxeMediaCardTextOverflow;
 }
 
 const VALID_HEIGHTS: LuxeMediaCardHeight[] = ['flat', 'compact', 'comfortable', 'tall'];
+const VALID_TEXT_OVERFLOW: LuxeMediaCardTextOverflow[] = ['truncate', 'scroll'];
 
 export const normalizeConfig = (config: LuxeMediaCardConfig): NormalizedLuxeMediaCardConfig => {
   if (!config?.entity || !config.entity.startsWith('media_player.')) {
@@ -28,10 +32,15 @@ export const normalizeConfig = (config: LuxeMediaCardConfig): NormalizedLuxeMedi
     ? (config.height ?? 'compact')
     : 'compact';
 
+  const text_overflow = VALID_TEXT_OVERFLOW.includes(config.text_overflow ?? 'truncate')
+    ? (config.text_overflow ?? 'truncate')
+    : 'truncate';
+
   return {
     entity: config.entity,
     height,
-    show_skip_controls: config.show_skip_controls ?? true
+    show_skip_controls: config.show_skip_controls ?? true,
+    text_overflow
   };
 };
 

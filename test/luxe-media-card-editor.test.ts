@@ -37,7 +37,7 @@ describe('luxe-media-card-editor', () => {
   it('emits config-changed when height changes', async () => {
     const el = await fixture<LuxeMediaCardEditor>(html`<luxe-media-card-editor></luxe-media-card-editor>`);
     el.hass = hass as any;
-    el.setConfig({ entity: 'media_player.office', height: 'compact', show_skip_controls: true });
+    el.setConfig({ entity: 'media_player.office', height: 'compact', show_skip_controls: true, text_overflow: 'truncate' });
     await el.updateComplete;
 
     const listener = oneEvent(el, 'config-changed');
@@ -49,7 +49,28 @@ describe('luxe-media-card-editor', () => {
     expect(event.detail.config).to.deep.equal({
       entity: 'media_player.office',
       height: 'tall',
-      show_skip_controls: true
+      show_skip_controls: true,
+      text_overflow: 'truncate'
+    });
+  });
+
+  it('emits config-changed when text overflow changes', async () => {
+    const el = await fixture<LuxeMediaCardEditor>(html`<luxe-media-card-editor></luxe-media-card-editor>`);
+    el.hass = hass as any;
+    el.setConfig({ entity: 'media_player.office', height: 'compact', show_skip_controls: true, text_overflow: 'truncate' });
+    await el.updateComplete;
+
+    const listener = oneEvent(el, 'config-changed');
+    const select = el.shadowRoot!.querySelector('[data-testid="text-overflow-select"]') as HTMLSelectElement;
+    select.value = 'scroll';
+    select.dispatchEvent(new Event('change'));
+
+    const event = (await listener) as CustomEvent;
+    expect(event.detail.config).to.deep.equal({
+      entity: 'media_player.office',
+      height: 'compact',
+      show_skip_controls: true,
+      text_overflow: 'scroll'
     });
   });
 });

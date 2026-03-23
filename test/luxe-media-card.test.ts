@@ -28,7 +28,8 @@ describe('config helpers', () => {
     expect(normalizeConfig({ entity: 'media_player.living_room' })).to.deep.equal({
       entity: 'media_player.living_room',
       height: 'compact',
-      show_skip_controls: true
+      show_skip_controls: true,
+      text_overflow: 'truncate'
     });
   });
 
@@ -36,7 +37,8 @@ describe('config helpers', () => {
     expect(normalizeConfig({ entity: 'media_player.living_room', height: 'wild' as never })).to.deep.equal({
       entity: 'media_player.living_room',
       height: 'compact',
-      show_skip_controls: true
+      show_skip_controls: true,
+      text_overflow: 'truncate'
     });
   });
 
@@ -90,6 +92,32 @@ describe('luxe-media-card', () => {
 
     expect(el.shadowRoot!.querySelector('[data-testid="play-pause-button"]')?.getAttribute('aria-label')).to.equal('Play');
     expect(el.shadowRoot!.querySelector('[data-testid="play-pause-button"] ha-icon')?.getAttribute('icon')).to.equal('mdi:play');
+  });
+
+  it('uses truncate mode by default', async () => {
+    const el = await fixture<LuxeMediaCard>(html`<luxe-media-card></luxe-media-card>`);
+    el.setConfig({ entity: 'media_player.living_room' });
+    el.hass = createHass('playing', {
+      media_title: 'A very long title that should be cut off in truncate mode',
+      media_artist: 'A very long artist that should also be cut off'
+    }) as any;
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector('[data-testid="title"]')?.classList.contains('truncate')).to.equal(true);
+    expect(el.shadowRoot!.querySelector('[data-testid="artist"]')?.classList.contains('truncate')).to.equal(true);
+  });
+
+  it('uses scroll mode when configured', async () => {
+    const el = await fixture<LuxeMediaCard>(html`<luxe-media-card></luxe-media-card>`);
+    el.setConfig({ entity: 'media_player.living_room', text_overflow: 'scroll' });
+    el.hass = createHass('playing', {
+      media_title: 'A very long title that should scroll in marquee mode',
+      media_artist: 'A very long artist that should scroll in marquee mode'
+    }) as any;
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector('[data-testid="title"]')?.classList.contains('marquee')).to.equal(true);
+    expect(el.shadowRoot!.querySelector('[data-testid="artist"]')?.classList.contains('marquee')).to.equal(true);
   });
 
   it('hides skip controls when disabled in config', async () => {

@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { HomeAssistant } from './types';
-import type { LuxeMediaCardConfig, LuxeMediaCardHeight } from './config';
+import type { LuxeMediaCardConfig, LuxeMediaCardHeight, LuxeMediaCardTextOverflow } from './config';
 
 @customElement('luxe-media-card-editor')
 export class LuxeMediaCardEditor extends LitElement {
@@ -40,6 +40,14 @@ export class LuxeMediaCardEditor extends LitElement {
           </select>
         </label>
 
+        <label>
+          Long text
+          <select data-testid="text-overflow-select" .value=${this._config.text_overflow ?? 'truncate'} @change=${this.#onTextOverflowChange}>
+            <option value="truncate">Cut off</option>
+            <option value="scroll">Scroll</option>
+          </select>
+        </label>
+
         <label class="checkbox">
           <input
             data-testid="skip-toggle"
@@ -59,6 +67,10 @@ export class LuxeMediaCardEditor extends LitElement {
 
   #onHeightChange(event: Event): void {
     this.#emitConfig({ height: (event.target as HTMLSelectElement).value as LuxeMediaCardHeight });
+  }
+
+  #onTextOverflowChange(event: Event): void {
+    this.#emitConfig({ text_overflow: (event.target as HTMLSelectElement).value as LuxeMediaCardTextOverflow });
   }
 
   #onSkipToggle(event: Event): void {

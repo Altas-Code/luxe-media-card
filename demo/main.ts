@@ -1,9 +1,40 @@
 import '../src/luxe-media-card';
 
+class DemoHaIcon extends HTMLElement {
+  static get observedAttributes() {
+    return ['icon'];
+  }
+
+  connectedCallback() {
+    this.#render();
+  }
+
+  attributeChangedCallback() {
+    this.#render();
+  }
+
+  #render() {
+    const icon = this.getAttribute('icon') ?? '';
+    const glyphs: Record<string, string> = {
+      'mdi:play': '▶',
+      'mdi:pause': '⏸',
+      'mdi:skip-next': '⏭',
+      'mdi:skip-previous': '⏮'
+    };
+
+    this.textContent = glyphs[icon] ?? '•';
+    this.setAttribute('aria-hidden', 'true');
+  }
+}
+
+if (!customElements.get('ha-icon')) {
+  customElements.define('ha-icon', DemoHaIcon);
+}
+
 const states = [
   {
     title: 'Playing / compact',
-    config: { entity: 'media_player.demo', height: 'compact', show_skip_controls: true },
+    config: { entity: 'media_player.demo', height: 'compact', show_skip_controls: true, text_overflow: 'truncate' },
     hass: {
       states: {
         'media_player.demo': {
@@ -23,7 +54,7 @@ const states = [
   },
   {
     title: 'Paused / tall',
-    config: { entity: 'media_player.demo', height: 'tall', show_skip_controls: true },
+    config: { entity: 'media_player.demo', height: 'tall', show_skip_controls: true, text_overflow: 'scroll' },
     hass: {
       states: {
         'media_player.demo': {
@@ -31,7 +62,7 @@ const states = [
           state: 'paused',
           attributes: {
             friendly_name: 'Kitchen Speaker',
-            media_title: 'A very long podcast episode title that should wrap gracefully across the card',
+            media_title: 'A very long podcast episode title that should stay on a single line and scroll cleanly',
             media_artist: 'The Extremely Talkative Show With Surprisingly Long Metadata',
             entity_picture: null,
             supported_features: 0

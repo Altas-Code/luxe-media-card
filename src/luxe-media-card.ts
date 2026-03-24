@@ -202,21 +202,21 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
+      grid-template-rows: 1fr auto;
       min-width: 0;
       padding: var(--card-padding);
-      gap: 12px;
+      gap: 10px;
+      align-items: stretch;
     }
 
     .meta {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
       min-width: 0;
-      margin-top: auto;
       justify-content: center;
+      min-height: 0;
     }
 
     .text-row {
@@ -271,17 +271,17 @@ export class LuxeMediaCard extends LitElement {
     .controls {
       display: flex;
       justify-content: flex-end;
-      align-items: center;
+      align-items: flex-start;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: auto;
+      align-self: end;
     }
 
     .icon-button {
       border: 1px solid var(--divider-color, rgba(127, 127, 127, 0.22));
       border-radius: 10px;
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       cursor: pointer;
       background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color)) 96%, var(--primary-text-color) 4%);
       color: var(--primary-text-color);
@@ -307,19 +307,19 @@ export class LuxeMediaCard extends LitElement {
     .icon-button.primary {
       background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color)) 94%, var(--primary-text-color) 6%);
       border-color: var(--divider-color, rgba(127, 127, 127, 0.22));
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       font-size: 1.2rem;
     }
 
     .icon-button ha-icon {
       display: inline-flex;
-      --mdc-icon-size: 20px;
+      --mdc-icon-size: 21px;
       color: currentColor;
     }
 
     .icon-button.primary ha-icon {
-      --mdc-icon-size: 22px;
+      --mdc-icon-size: 23px;
     }
 
     .missing {
@@ -349,17 +349,21 @@ export class LuxeMediaCard extends LitElement {
 
       .content {
         --card-padding: 14px;
-        gap: 10px;
+        gap: 8px;
+      }
+
+      .meta {
+        gap: 1px;
       }
 
       .icon-button {
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
       }
 
       .icon-button.primary {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
       }
     }
   `;

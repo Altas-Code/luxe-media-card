@@ -8,7 +8,7 @@ Elegant now-playing Lovelace card for Home Assistant with artwork, metadata, and
 - Single `media_player` entity per card
 - Artwork on the left in a square, full-height panel
 - Title and optional artist text left-aligned on the right, always in a single line
-- Material Design transport icons with play/pause always shown
+- Material Design transport icons with slightly larger transport buttons
 - Previous/next buttons shown only when enabled **and** supported by the device
 - Height presets: `flat`, `compact`, `comfortable`, `tall`
 - GUI editor for entity, height, text overflow mode, and skip controls

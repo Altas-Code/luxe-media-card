@@ -141,8 +141,7 @@ export class LuxeMediaCard extends LitElement {
     .card {
       --card-padding: 16px;
       --luxe-surface: var(--ha-card-background, var(--card-background-color));
-      --luxe-surface-playing: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) 90%, var(--state-icon-active-color, var(--primary-color, #03a9f4)) 10%);
-      --luxe-artwork-fallback: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 92%, var(--primary-color, #03a9f4) 8%);
+      --luxe-artwork-fallback: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color, #2b2b2b)) 96%, var(--primary-text-color, #fff) 4%);
       --artwork-size: 156px;
       display: grid;
       grid-template-columns: var(--artwork-size) minmax(0, 1fr);
@@ -150,10 +149,6 @@ export class LuxeMediaCard extends LitElement {
       min-width: 0;
       background: var(--luxe-surface);
       color: var(--primary-text-color);
-    }
-
-    .card[data-state='playing'] {
-      background: var(--luxe-surface-playing);
     }
 
     .height-flat {
@@ -310,8 +305,8 @@ export class LuxeMediaCard extends LitElement {
     }
 
     .icon-button.primary {
-      background: color-mix(in srgb, var(--primary-color, #03a9f4) 14%, var(--secondary-background-color, var(--card-background-color)) 86%);
-      border-color: color-mix(in srgb, var(--primary-color, #03a9f4) 40%, var(--divider-color, rgba(127, 127, 127, 0.22)) 60%);
+      background: color-mix(in srgb, var(--secondary-background-color, var(--card-background-color)) 94%, var(--primary-text-color) 6%);
+      border-color: var(--divider-color, rgba(127, 127, 127, 0.22));
       width: 44px;
       height: 44px;
       font-size: 1.2rem;

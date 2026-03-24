@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.4
+- Added configurable text overflow handling with `truncate` and `scroll` modes.
+- Added the new text overflow option to the visual card editor.
+- Forced title and artist into single-line rendering.
+- Repaired the local demo so screenshots show text and icons correctly again.
+- Removed playback-state color tinting so the card stays neutral across themes.
+- Removed special accent coloring from the transport buttons to match the active Home Assistant theme more closely.
+- Tightened spacing in the flatter layout.
+- Slightly increased transport button sizes.
+- Refreshed screenshots and README content to match the current UI and options.
+
 ## 0.1.3
 - Updated the card chrome to feel closer to standard Home Assistant cards.
 - Switched transport controls from emoji buttons to Material Design icons.
